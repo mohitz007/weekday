@@ -9,11 +9,14 @@ import { fetchData } from './redux/job_action_reducer';
 
 const App = () => {
 
-  const data = useSelector(state => state.job_action_reducer.data);
-  console.log(data);
+  const {data,status,error} = useSelector(state => state.job_action_reducer);
+  console.log("data from App",data,status,error);
 
   const dispatch = useDispatch()
 
+  const fetchJobs = () => {
+    dispatch(fetchData());
+  }
 
   return (
     <div className="App">
@@ -22,7 +25,7 @@ const App = () => {
       <div>
         <Cards />
       </div>
-      <button onClick={() => dispatch(fetchData)} >click me</button>
+      <button onClick={fetchJobs} >click me</button>
     </div>
   );
 }
