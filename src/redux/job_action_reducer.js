@@ -19,9 +19,12 @@ export const fetchData = createAsyncThunk(
         try {
             const newState = thunkAPI.getState().job_action_reducer;
             const state = {...newState}
-            state.offset = state.offset+10;
             console.log("state after setting", state);
-            data = null;
+            const data = await instance.post("",{
+                limit: 0,
+                offset: state.offset
+            })
+            state.offset = state.offset+10;
             return [data, state];
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -38,15 +41,21 @@ const jobSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchData.pending,(state) => {
-
+                state.status = 'loading';
+                state.error = null;
+                console.log("setSlokChapterLanguage pending")
             })
-
-            .addCase(fetchData.rejected,(state) => {
-
+            
+            .addCase(fetchData.rejected,(state,action) => {
+                state.status = 'rejected';
+                state.error = action.error.message;
+                console.log("fetchData rejected", action);
             })
-
-            .addCase(fetchData.fulfilled,(state) => {
-
+            
+            .addCase(fetchData.fulfilled,(state,action) => {
+                state.status = 'success';
+                state.error = null;
+                console.log("state",state);
             })
     }
 })
