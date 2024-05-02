@@ -10,9 +10,10 @@ import { fetchData } from './redux/job_action_reducer';
 // To do error handling for rendering
 
 const App = () => {
-
+  
   const {data,status,error} = useSelector(state => state.job_action_reducer);
   console.log("data from App",data,status,error);
+  const dispatch = useDispatch()
 
   const [minExpFilter, setMinExpFilter] = useState(0);
   const [locationFilter, setLocationFilter] = useState('');
@@ -49,35 +50,41 @@ const App = () => {
     setRoleFilter(event.target.value);
   };
 
-  // Function to fetch more data when reaching bottom
+  
+
+  useEffect(() => {
+
+    // Function to fetch more data when reaching bottom
   const handleScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
       // Fetch more data if not already loading
       if (status !== 'loading') {
+        console.log("Fetching more data...");
         dispatch(fetchData());
+      }
+      else {
+        console.log("status", status);
       }
     }
   };
 
-  useEffect(() => {
     // Add event listener to detect scrolling
     window.addEventListener('scroll', handleScroll);
     return () => {
       // Remove event listener on component unmount
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [status]); 
+  }, [status,dispatch]); 
 
   // Initial fetch when component mounts
   useEffect(() => {
     dispatch(fetchData());
   }, []);
 
-  const dispatch = useDispatch()
 
-  const fetchJobs = () => {
-    dispatch(fetchData());
-  }
+  // const fetchJobs = () => {
+  //   dispatch(fetchData());
+  // }
 
 
 

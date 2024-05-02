@@ -40,7 +40,7 @@ export const fetchData = createAsyncThunk(
         try {
             const newState = thunkAPI.getState().job_action_reducer;
             const state = { ...newState };
-            console.log("state after setting", state);
+            // console.log("state after setting", state);
             const data = await instance.post("", {
                 limit: 10,
                 offset: state.offset
