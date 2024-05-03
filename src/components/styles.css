@@ -1,0 +1,23 @@
+.temp {
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #bfbfbf;
+    color: #a6a6a6;
+}
+
+.headerContainer {
+    margin: 25px 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.clearFilterStyles {
+text-decoration: underline;
+color: red;
+cursor: pointer;
+}
+
+.cardContainer {
+    height: 500px;
+}
